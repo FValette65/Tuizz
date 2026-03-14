@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tuizz – Tanz Memory/Quiz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&display=swap');
+
+    .hidden { display: none; }
+    .slider-container { width: 100%; margin: 0.5rem 0; }
+    .playlist-item { cursor: pointer; padding: 0.5rem; border-bottom: 1px solid #eee; }
+    .playlist-item:hover { background-color: #f5f5f5; }
+    .role-toggle { display: flex; justify-content: center; margin-bottom: 1rem; }
+    .role-btn { flex: 1; padding: 0.5rem; text-align: center; cursor: pointer; transition: all 0.3s; }
+    .role-btn.active { background-color: #e91e63; color: white; font-weight: bold; }
+    .dance-font { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #e91e63; }
+    .body-font { font-family: 'Montserrat', sans-serif; }
+    .dance-badge { background-color: #e91e63; color: white; padding: 0.25rem 0.75rem; border-radius: 2rem; font-size: 0.875rem; font-weight: bold; }
+    .header-banner { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; }
+    .logo-section { flex: 1; text-align: left; }
+    .photo-section { flex: 1; text-align: right; }
+    .logo-img { max-height: 80px; }
+    .photo-img { max-height: 80px; border-radius: 0.5rem; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen p-4 body-font">
+  <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6">
+
+    <!-- Header-Banner mit Logo links und Foto rechts -->
+    <div class="header-banner">
+      <div class="logo-section">
+        <img src="https://mistralaichatupprodswe.blob.core.windows.net/chat-images/25/4a/bf/254abfa1-f8eb-4f59-b628-c27d13d41f07/4ed26a5e-a1e5-4af7-880b-846ec556669b/4ed26a5e-a1e5-4af7-880b-846ec556669b/fbc17194-55b1-4f6a-bbf7-cca7e75f24c1?sv=2025-01-05&st=2026-03-08T21%3A24%3A54Z&se=2026-03-08T22%3A24%3A54Z&sr=b&sp=r&sig=Zay%2FE1fGW%2FIjq5iC7kjILEa8BsynUxtkd2wedCQ2Khs%3D" alt="DanceINN Logo" class="logo-img">
+        <div class="mt-2">
+          <h1 class="dance-font text-2xl">Tuizz</h1>
+          <p class="text-sm font-semibold text-gray-700">Tanz Memory/Quiz</p>
+          <div class="dance-badge mt-1 inline-block">Deine Tanzschule mit Persönlichkeit</div>
+        </div>
+      </div>
+      <div class="photo-section">
+        <img src="https://mistralaichatupprodswe.blob.core.windows.net/chat-images/25/4a/bf/254abfa1-f8eb-4f59-b628-c27d13d41f07/4ed26a5e-a1e5-4af7-880b-846ec556669b/97605f84-09ba-46b9-881c-6977161add4b?sv=2025-01-05&st=2026-03-08T21%3A24%3A54Z&se=2026-03-08T22%3A24%3A54Z&sr=b&sp=r&sig=Cdgu%2BOOkz8Q63n%2BIgd4Y6tQDY2fQJ2Nkn8JzRzt1%2FAo%3D" alt="Tanzsaal" class="photo-img">
+      </div>
+    </div>
+
+    <!-- Rollenauswahl -->
+    <div class="role-toggle mb-6">
+      <div id="role-tanzer" class="role-btn active bg-pink-100 rounded-l-lg" data-role="tanzer">Tänzer-Modus</div>
+      <div id="role-jury" class="role-btn bg-pink-100 rounded-r-lg" data-role="jury">Jury-Modus</div>
+    </div>
+
+    <!-- Playlist-Verwaltung -->
+    <div id="playlist-management" class="mb-6 bg-pink-50 p-4 rounded-lg">
+      <h2 class="text-lg font-semibold mb-3 text-gray-700">Playlist-Verwaltung</h2>
+      <div class="flex space-x-2 mb-4">
+        <button id="show-favorites" class="flex-1 bg-yellow-100 px-4 py-2 rounded text-yellow-800 hover:bg-yellow-200 transition">Lieblingstänze</button>
+        <button id="show-mandatory" class="flex-1 bg-red-100 px-4 py-2 rounded text-red-800 hover:bg-red-200 transition">Pflicht-Tänze</button>
+        <button id="add-participant-btn" class="flex-1 bg-green-100 px-4 py-2 rounded text-green-800 hover:bg-green-200 transition">Teilnehmer</button>
+      </div>
+      <div id="playlist-favorites" class="hidden">
+        <h3 class="font-medium mb-2 text-yellow-800">Lieblingstänze:</h3>
+        <div id="favorites-list" class="border border-yellow-200 rounded p-2 mb-2 max-h-40 overflow-y-auto bg-yellow-50"></div>
+        <div class="flex space-x-2">
+          <input id="new-favorite-song" placeholder="Neuer Lieblingssong" class="flex-1 p-2 border border-yellow-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500">
+          <button id="add-favorite" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">+</button>
+        </div>
+      </div>
+      <div id="playlist-mandatory" class="hidden">
+        <h3 class="font-medium mb-2 text-red-800">Pflicht-Tänze:</h3>
+        <div id="mandatory-list" class="border border-red-200 rounded p-2 mb-2 max-h-40 overflow-y-auto bg-red-50"></div>
+        <div class="flex space-x-2">
+          <input id="new-mandatory-song" placeholder="Neuer Pflicht-Tanz" class="flex-1 p-2 border border-red-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+          <button id="add-mandatory" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">+</button>
+        </div>
+      </div>
+      <div id="participant-management" class="hidden">
+        <h3 class="font-medium mb-2 text-green-800">Neuer Teilnehmer:</h3>
+        <div class="flex space-x-2">
+          <input id="new-participant-name" placeholder="Name" class="flex-1 p-2 border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500">
+          <button id="save-participant" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Speichern</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Teilnehmerauswahl -->
+    <div id="participant-select" class="mb-4 bg-white p-4 rounded-lg border border-gray-200">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Teilnehmer auswählen:</h2>
+      <select id="participant-dropdown" class="w-full p-2 border border-gray-300 rounded mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="">-- Wähle einen Teilnehmer --</option>
+      </select>
+      <button id="start-btn" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">
+        Start
+      </button>
+    </div>
+
+    <!-- Runde auswählen -->
+    <div id="round-select" class="hidden mb-4 bg-white p-4 rounded-lg border border-gray-200">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Runde auswählen:</h2>
+      <div class="flex space-x-2">
+        <button id="round-favorite" class="flex-1 bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600 transition">
+          Runde 1: Lieblingstanz
+        </button>
+        <button id="round-mandatory" class="flex-1 bg-red-500 text-white py-2 rounded hover:bg-red-600 transition">
+          Runde 2: Pflicht-Tanz
+        </button>
+      </div>
+    </div>
+
+    <!-- Tänzer-Ansicht -->
+    <div id="tanzer-view" class="hidden bg-white p-4 rounded-lg border border-gray-200">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Tänzer: <span id="tanzer-name" class="font-bold text-pink-600"></span></h2>
+      <p class="mb-4 text-gray-600">Aktueller Song: <span id="tanzer-song" class="font-medium text-pink-600"></span></p>
+      <div class="mb-4">
+        <label class="block mb-2 text-gray-700 font-medium">Selbsteinschätzung (1–4):</label>
+        <select id="self-rating" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500">
+          <option value="1">1 – Passabel</option>
+          <option value="2">2 – OK</option>
+          <option value="3">3 – Gut</option>
+          <option value="4">4 – Sehr gut</option>
+        </select>
+      </div>
+      <button id="tanzer-submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition font-medium">
+        Bestätigen
+      </button>
+    </div>
+
+    <!-- Jury-Ansicht -->
+    <div id="jury-view" class="hidden bg-white p-4 rounded-lg border border-gray-200">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Jury: Bewerte <span id="jury-name" class="font-bold text-pink-600"></span></h2>
+      <p class="mb-4 text-gray-600">Aktueller Song: <span id="jury-song" class="font-medium text-pink-600"></span></p>
+      <div class="space-y-3">
+        <div class="slider-container">
+          <label class="block text-gray-700 font-medium">Kreativität (1–10): <span id="creativity-value" class="font-semibold text-pink-600">5</span></label>
+          <input type="range" id="creativity" min="1" max="10" value="5" class="w-full cursor-pointer">
+        </div>
+        <div class="slider-container">
+          <label class="block text-gray-700 font-medium">Rhythmus (1–10): <span id="rhythm-value" class="font-semibold text-pink-600">5</span></label>
+          <input type="range" id="rhythm" min="1" max="10" value="5" class="w-full cursor-pointer">
+        </div>
+        <div class="slider-container">
+          <label class="block text-gray-700 font-medium">Ausstrahlung (1–10): <span id="presence-value" class="font-semibold text-pink-600">5</span></label>
+          <input type="range" id="presence" min="1" max="10" value="5" class="w-full cursor-pointer">
+        </div>
+        <div class="slider-container">
+          <label class="block text-gray-700 font-medium">Technik (1–10): <span id="technique-value" class="font-semibold text-pink-600">5</span></label>
+          <input type="range" id="technique" min="1" max="10" value="5" class="w-full cursor-pointer">
+        </div>
+      </div>
+      <button id="jury-submit" class="mt-4 w-full bg-purple-500 text-white py-2 rounded hover:bg-purple-600 transition font-medium">
+        Bewertung abgeben
+      </button>
+    </div>
+
+    <!-- Bestätigungsansicht -->
+    <div id="confirmation-view" class="hidden text-center bg-white p-6 rounded-lg border border-gray-200">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Danke für deine <span id="confirmation-role" class="text-pink-600 font-bold"></span>!</h2>
+      <p class="mb-4 text-gray-600">Deine Eingabe wurde gespeichert.</p>
+      <button id="back-to-start" class="w-full bg-gray-500 text-white py-2 rounded hover:bg-gray-600 transition font-medium">
+        Zurück zur Auswahl
+      </button>
+    </div>
+
+    <!-- Ranking -->
+    <div id="ranking" class="mt-6 bg-white p-4 rounded-lg border border-gray-200">
+      <h2 class="text-lg font-semibold mb-3 text-gray-700">Ranking</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="p-2 border border-gray-200 text-left">Name</th>
+              <th class="p-2 border border-gray-200 text-center">Jury-Ø</th>
+              <th class="p-2 border border-gray-200 text-center">Bonus</th>
+              <th class="p-2 border border-gray-200 text-center">Gesamt</th>
+            </tr>
+          </thead>
+          <tbody id="ranking-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Daten aus localStorage laden oder Initialwerte setzen
+    let participants = JSON.parse(localStorage.getItem('tuizzParticipants')) || [
+      { id: 1, name: 'Max', song: '', selfRating: null, juryScores: [], totalScore: 0 },
+      { id: 2, name: 'Lisa', song: '', selfRating: null, juryScores: [], totalScore: 0 },
+    ];
+
+    let playlists = JSON.parse(localStorage.getItem('tuizzPlaylists')) || {
+      favorites: ['Cha-Cha-Cha', 'Salsa', 'Wiener Walzer'],
+      mandatory: ['Tango', 'Foxtrott', 'Discofox'],
+    };
+
+    // Aktuelle Rolle (tanzer/jury)
+    let currentRole = 'tanzer';
+
+    // DOM-Elemente
+    const roleTanzer = document.getElementById('role-tanzer');
+    const roleJury = document.getElementById('role-jury');
+    const participantDropdown = document.getElementById('participant-dropdown');
+    const startBtn = document.getElementById('start-btn');
+    const roundSelect = document.getElementById('round-select');
+    const tanzerView = document.getElementById('tanzer-view');
+    const juryView = document.getElementById('jury-view');
+    const confirmationView = document.getElementById('confirmation-view');
+    const tanzerName = document.getElementById('tanzer-name');
+    const tanzerSong = document.getElementById('tanzer-song');
+    const juryName = document.getElementById('jury-name');
+    const jurySong = document.getElementById('jury-song');
+    const selfRating = document.getElementById('self-rating');
+    const tanzerSubmit = document.getElementById('tanzer-submit');
+    const jurySubmit = document.getElementById('jury-submit');
+    const roundFavorite = document.getElementById('round-favorite');
+    const roundMandatory = document.getElementById('round-mandatory');
+    const rankingBody = document.getElementById('ranking-body');
+    const showFavorites = document.getElementById('show-favorites');
+    const showMandatory = document.getElementById('show-mandatory');
+    const addParticipantBtn = document.getElementById('add-participant-btn');
+    const participantManagement = document.getElementById('participant-management');
+    const newParticipantName = document.getElementById('new-participant-name');
+    const saveParticipant = document.getElementById('save-participant');
+    const playlistFavorites = document.getElementById('playlist-favorites');
+    const playlistMandatory = document.getElementById('playlist-mandatory');
+    const favoritesList = document.getElementById('favorites-list');
+    const mandatoryList = document.getElementById('mandatory-list');
+    const newFavoriteSong = document.getElementById('new-favorite-song');
+    const newMandatorySong = document.getElementById('new-mandatory-song');
+    const addFavorite = document.getElementById('add-favorite');
+    const addMandatory = document.getElementById('add-mandatory');
+    const confirmationRole = document.getElementById('confirmation-role');
+    const backToStart = document.getElementById('back-to-start');
+
+    // Rollenauswahl
+    roleTanzer.addEventListener('click', () => {
+      currentRole = 'tanzer';
+      roleTanzer.classList.add('active');
+      roleJury.classList.remove('active');
+      roleTanzer.classList.add('bg-pink-100');
+      roleJury.classList.remove('bg-pink-100');
+    });
+
+    roleJury.addEventListener('click', () => {
+      currentRole = 'jury';
+      roleJury.classList.add('active');
+      roleTanzer.classList.remove('active');
+      roleJury.classList.add('bg-pink-100');
+      roleTanzer.classList.remove('bg-pink-100');
+    });
+
+    // Playlist-Anzeige aktualisieren
+    function updatePlaylistUI() {
+      favoritesList.innerHTML = '';
+      playlists.favorites.forEach((song, index) => {
+        const item = document.createElement('div');
+        item.className = 'playlist-item flex justify-between bg-yellow-50 p-2 rounded mb-1 hover:bg-yellow-100';
+        item.innerHTML = `
+          <span>${song}</span>
+          <button class="text-red-500 delete-song hover:text-red-700 font-bold" data-type="favorites" data-index="${index}">×</button>
+        `;
+        favoritesList.appendChild(item);
+      });
+
+      mandatoryList.innerHTML = '';
+      playlists.mandatory.forEach((song, index) => {
+        const item = document.createElement('div');
+        item.className = 'playlist-item flex justify-between bg-red-50 p-2 rounded mb-1 hover:bg-red-100';
+        item.innerHTML = `
+          <span>${song}</span>
+          <button class="text-red-500 delete-song hover:text-red-700 font-bold" data-type="mandatory" data-index="${index}">×</button>
+        `;
+        mandatoryList.appendChild(item);
+      });
+
+      document.querySelectorAll('.delete-song').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const type = e.target.getAttribute('data-type');
+          const index = parseInt(e.target.getAttribute('data-index'));
+          playlists[type].splice(index, 1);
+          saveToLocalStorage();
+          updatePlaylistUI();
+        });
+      });
+    }
+
+    // Teilnehmer-Dropdown füllen
+    function updateParticipantDropdown() {
+      participantDropdown.innerHTML = '<option value="">-- Wähle einen Teilnehmer --</option>';
+      participants.forEach(p => {
+        const option = document.createElement('option');
+        option.value = p.id;
+        option.textContent = p.name;
+        participantDropdown.appendChild(option);
+      });
+    }
+
+    // Daten in localStorage speichern
+    function saveToLocalStorage() {
+      localStorage.setItem('tuizzParticipants', JSON.stringify(participants));
+      localStorage.setItem('tuizzPlaylists', JSON.stringify(playlists));
+    }
+
+    // Playlist-Verwaltung
+    showFavorites.addEventListener('click', () => {
+      playlistFavorites.classList.remove('hidden');
+      playlistMandatory.classList.add('hidden');
+      participantManagement.classList.add('hidden');
+    });
+
+    showMandatory.addEventListener('click', () => {
+      playlistMandatory.classList.remove('hidden');
+      playlistFavorites.classList.add('hidden');
+      participantManagement.classList.add('hidden');
+    });
+
+    addParticipantBtn.addEventListener('click', () => {
+      participantManagement.classList.remove('hidden');
+      playlistFavorites.classList.add('hidden');
+      playlistMandatory.classList.add('hidden');
+    });
+
+    addFavorite.addEventListener('click', () => {
+      const song = newFavoriteSong.value.trim();
+      if (song) {
+        playlists.favorites.push(song);
+        newFavoriteSong.value = '';
+        saveToLocalStorage();
+        updatePlaylistUI();
+      }
+    });
+
+    addMandatory.addEventListener('click', () => {
+      const song = newMandatorySong.value.trim();
+      if (song) {
+        playlists.mandatory.push(song);
+        newMandatorySong.value = '';
+        saveToLocalStorage();
+        updatePlaylistUI();
+      }
+    });
+
+    saveParticipant.addEventListener('click', () => {
+      const name = newParticipantName.value.trim();
+      if (name) {
+        const newId = participants.length > 0 ? Math.max(...participants.map(p => p.id)) + 1 : 1;
+        participants.push({
+          id: newId,
+          name: name,
+          song: '',
+          selfRating: null,
+          juryScores: [],
+          totalScore: 0
+        });
+        newParticipantName.value = '';
+        saveToLocalStorage();
+        updateParticipantDropdown();
+        participantManagement.classList.add('hidden');
+      }
+    });
+
+    // Start-Button
+    let currentParticipant = null;
+    let currentRound = null;
+
+    startBtn.addEventListener('click', () => {
+      const participantId = parseInt(participantDropdown.value);
+      if (!participantId) {
+        alert('Bitte wähle einen Teilnehmer aus!');
+        return;
+      }
+      currentParticipant = participants.find(p => p.id === participantId);
+      if (currentParticipant) {
+        tanzerName.textContent = currentParticipant.name;
+        juryName.textContent = currentParticipant.name;
+        confirmationRole.textContent = currentRole === 'tanzer' ? 'Selbsteinschätzung' : 'Bewertung';
+        participantDropdown.classList.add('hidden');
+        startBtn.classList.add('hidden');
+        roundSelect.classList.remove('hidden');
+      }
+    });
+
+    // Runde 1: Lieblingstanz
+    roundFavorite.addEventListener('click', () => {
+      currentRound = 'favorite';
+      if (playlists.favorites.length === 0) {
+        alert('Bitte füge zuerst Lieblingstänze zur Playlist hinzu!');
+        return;
+      }
+      const song = playlists.favorites[Math.floor(Math.random() * playlists.favorites.length)];
+      currentParticipant.song = song;
+      tanzerSong.textContent = song;
+      jurySong.textContent = song;
+      roundSelect.classList.add('hidden');
+      if (currentRole === 'tanzer') {
+        tanzerView.classList.remove('hidden');
+      } else {
+        juryView.classList.remove('hidden');
+      }
+    });
+
+    // Runde 2: Pflicht-Tanz
+    roundMandatory.addEventListener('click', () => {
+      currentRound = 'mandatory';
+      if (playlists.mandatory.length === 0) {
+        alert('Bitte füge zuerst Pflicht-Tänze zur Playlist hinzu!');
+        return;
+      }
+      const song = playlists.mandatory[Math.floor(Math.random() * playlists.mandatory.length)];
+      currentParticipant.song = song;
+      tanzerSong.textContent = song;
+      jurySong.textContent = song;
+      roundSelect.classList.add('hidden');
+      if (currentRole === 'tanzer') {
+        tanzerView.classList.remove('hidden');
+      } else {
+        juryView.classList.remove('hidden');
+      }
+    });
+
+    // Tänzer-Bestätigung
+    tanzerSubmit.addEventListener('click', () => {
+      currentParticipant.selfRating = parseInt(selfRating.value);
+      saveToLocalStorage();
+      tanzerView.classList.add('hidden');
+      confirmationView.classList.remove('hidden');
+    });
+
+    // Jury-Bewertung
+    const sliders = {
+      creativity: document.getElementById('creativity'),
+      rhythm: document.getElementById('rhythm'),
+      presence: document.getElementById('presence'),
+      technique: document.getElementById('technique'),
+    };
+
+    Object.keys(sliders).forEach(key => {
+      const slider = sliders[key];
+      const valueSpan = document.getElementById(`${key}-value`);
+      slider.addEventListener('input', () => {
+        valueSpan.textContent = slider.value;
+      });
+    });
+
+    jurySubmit.addEventListener('click', () => {
+      const scores = {
+        creativity: parseInt(sliders.creativity.value),
+        rhythm: parseInt(sliders.rhythm.value),
+        presence: parseInt(sliders.presence.value),
+        technique: parseInt(sliders.technique.value),
+      };
+      const average = Object.values(scores).reduce((a, b) => a + b, 0) / 4;
+      currentParticipant.juryScores.push({ round: currentRound, scores, average });
+
+      if (currentParticipant.selfRating !== null) {
+        const converted = Math.round((average / 10) * 4);
+        const deviation = Math.abs(currentParticipant.selfRating - converted);
+        let bonus = 0;
+        if (deviation === 0) bonus = 3;
+        else if (deviation === 1) bonus = 2;
+        currentParticipant.totalScore = average + bonus;
+      } else {
+        currentParticipant.totalScore = average;
+      }
+
+      saveToLocalStorage();
+      juryView.classList.add('hidden');
+      confirmationView.classList.remove('hidden');
+    });
+
+    // Zurück-Button
+    backToStart.addEventListener('click', () => {
+      confirmationView.classList.add('hidden');
+      participantDropdown.classList.remove('hidden');
+      startBtn.classList.remove('hidden');
+      participantDropdown.value = '';
+      selfRating.value = '1';
+      Object.keys(sliders).forEach(key => {
+        sliders[key].value = '5';
+        document.getElementById(`${key}-value`).textContent = '5';
+      });
+      updateRanking();
+    });
+
+    // Ranking aktualisieren
+    function updateRanking() {
+      rankingBody.innerHTML = '';
+      const sorted = [...participants].sort((a, b) => b.totalScore - a.totalScore);
+      sorted.forEach(p => {
+        const row = document.createElement('tr');
+        const juryAvg = p.juryScores.length > 0 ? p.juryScores[p.juryScores.length - 1]?.average.toFixed(1) : '-';
+        const bonus = p.totalScore > 0 && p.selfRating !== null
+          ? (p.totalScore - p.juryScores[p.juryScores.length - 1]?.average).toFixed(1)
+          : '-';
+        row.innerHTML = `
+          <td class="p-2 border border-gray-200">${p.name}</td>
+          <td class="p-2 border border-gray-200 text-center">${juryAvg}</td>
+          <td class="p-2 border border-gray-200 text-center">${bonus}</td>
+          <td class="p-2 border border-gray-200 text-center font-medium">${p.totalScore.toFixed(1)}</td>
+        `;
+        rankingBody.appendChild(row);
+      });
+    }
+
+    // Initialisierung
+    updatePlaylistUI();
+    updateParticipantDropdown();
+    updateRanking();
+  </script>
+</body>
+</html>
