@@ -14,7 +14,7 @@ Tuizz ist eine interaktive Web-Anwendung für Tanzschulen, die den Lernprozess s
 
 1. Klonen Sie das Repository:
    ```bash
-   git clone https://github.com/ihr-benutzername/tuizz.git
+   git clone https://github.com/FValette65/Tuizz.git
    ```
 2. Öffnen Sie die `index.html` in einem beliebigen modernen Webbrowser.
 3. Fertig! Es ist keine Installation oder Build-Schritt notwendig.
