@@ -23,6 +23,8 @@ Die Nutzung von Tuizz bietet dir mehrere Vorteile:
 *   **Faires Feedback:** Du erhältst nicht nur eine einfache Note, sondern detailliertes Feedback in vier verschiedenen Bereichen. So weißt du genau, wo deine Stärken liegen und woran du noch arbeiten kannst.
 *   **Spielerischer Wettbewerb:** Das Ranking motiviert und macht Spaß, ohne den Druck eines klassischen Turniers. Der Fokus liegt auf der persönlichen Entwicklung und der Übereinstimmung mit der Jury.
 *   **Transparenz:** Du siehst sofort, wie deine Punkte zustande kommen und wie du im Vergleich zu anderen abschneidest.
+*   **Vorbereitung auf Abzeichnungen (z.B. ADTV): **Tuizz ist das ideale Training für offizielle Tanzabzeichen. Durch die gezielte Arbeit an Technik, Rhythmus und Ausstrahlung sowie die ständige Selbstreflexion bist du bestens auf die Anforderungen von Verbänden wie dem ADTV vorbereitet.
+
 
 ---
 
