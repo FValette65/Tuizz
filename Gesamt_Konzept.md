@@ -1,0 +1,31 @@
+Natürlich, Frederic. Ich formuliere dir das gesamte Tuizz‑Konzept jetzt als zusammenhängenden, flüssigen Prosatext, ohne Listen, Tabellen oder Diagramm‑Syntax. Es wird wie ein kohärentes Konzeptpapier wirken, das man direkt in eine Projektbeschreibung oder ein Pitch‑Dokument übernehmen könnte.
+
+Ich beziehe mich dabei auf zwei Elemente aus deinem Dokument, um klarzumachen, worauf das Konzept aufbaut:
+
+• „Tanz Memory/Quiz“
+• „Paar auswählen: – Wähle ein Paar –“
+
+
+---
+
+Tuizz – Gesamtkonzept in Prosaform
+
+Tuizz ist eine modulare, erweiterbare Plattform für Tanzschulen, die spielerisches Lernen, professionelle Bewertung und moderne Medienintegration miteinander verbindet. Im Zentrum steht die Idee, Tänzerinnen und Tänzern eine Umgebung zu bieten, in der sie ihr Wissen über Tänze, Musik und Schrittfolgen auf unterhaltsame Weise vertiefen können, während gleichzeitig eine Jury strukturierte Bewertungen abgeben kann. Die Plattform verbindet damit pädagogische Elemente, Gamification und Wettbewerbslogik in einem einzigen System.
+
+Der Einstieg in Tuizz beginnt mit der Verwaltung der Teilnehmer. Jede Tänzerin und jeder Tänzer erhält ein eigenes Profil, das je nach Ausbaustufe von einfachen Stammdaten bis hin zu Video‑Vorstellungen, Leistungsstatistiken und Trainingshistorien reichen kann. Paare werden flexibel gebildet und können für Unterricht, interne Wettbewerbe oder öffentliche Events ausgewählt werden. Die Auswahl eines Paars – wie im Dokument beschrieben – bildet häufig den Ausgangspunkt für weitere Aktionen wie Quizrunden, Memory‑Spiele oder Jurybewertungen.
+
+Ein zentrales Element der Plattform ist die Verwaltung von Tänzen und Musik. Tanzschulen können Pflicht‑Tänze definieren, die im Unterricht oder bei Prüfungen relevant sind, sowie Lieblingstänze, die besonders häufig gespielt werden. Jede Tanzart kann mit Musikstücken, Bildern, Schrittfolgen oder sogar Videomaterial verknüpft werden. Dadurch entsteht ein multimediales Wissensarchiv, das sowohl für Lernzwecke als auch für spielerische Formate genutzt werden kann. In einer erweiterten Version können Videos von Schrittfolgen, kurze Demonstrationen oder vollständige Choreografien eingebunden werden, sodass die Plattform auch als digitales Lehrmittel fungiert.
+
+Das Herzstück von Tuizz ist das Spielmodul, das sowohl ein klassisches Memory als auch verschiedene Quizformen umfasst. Im Memory‑Modus werden beispielsweise Tanzarten mit passenden Musikstücken, Bildern oder Schrittfolgen kombiniert. Im Quiz‑Modus können Fragen zu Tanzstilen, Musik, Technik oder Historie gestellt werden. Auch audiovisuelle Quizformen sind möglich, etwa das Erkennen eines Tanzes anhand eines kurzen Videoclips oder das Zuordnen einer Schrittfolge zu einem Stil. Für Wettbewerbe oder Unterrichtseinheiten kann ein Battle‑Modus aktiviert werden, in dem Paare gegeneinander antreten und unter Zeitdruck Punkte sammeln. Die Quiz‑Engine ist so aufgebaut, dass sie jederzeit um neue Fragetypen, Medienformate oder Schwierigkeitsstufen erweitert werden kann.
+
+Für formelle Bewertungen steht das Jury‑Modul zur Verfügung. Hier können Jurorinnen und Juroren – wie im Dokument angedeutet – Rundenbewertungen wie „R1 Ø“, „R2 Ø“ sowie Bonuspunkte vergeben. Die Eingabe kann klassisch über numerische Felder erfolgen oder über moderne Interaktionsformen wie Swipe‑Gesten auf Tablets. In einer erweiterten Version können Performances direkt als Video aufgenommen oder hochgeladen werden, sodass die Jury zeitmarkierte Kommentare hinterlassen kann. Dadurch eignet sich Tuizz nicht nur für Live‑Events, sondern auch für asynchrone Bewertungen, etwa im Rahmen von Prüfungen oder Online‑Challenges. Die Bewertungslogik ist modular aufgebaut, sodass unterschiedliche Bewertungsmodelle – von einfachen Punktesystemen bis hin zu komplexen Gewichtungen – unterstützt werden.
+
+Alle Ergebnisse fließen in ein Ranking ein, das die Gesamtleistung der Paare übersichtlich darstellt. Neben den Rundenwertungen und Bonuspunkten können auch historische Daten, Fortschritte über mehrere Wochen oder Vergleiche zwischen verschiedenen Events angezeigt werden. Für Präsentationen oder interne Dokumentationen lassen sich die Ergebnisse exportieren oder als Live‑Leaderboard darstellen, das sich automatisch aktualisiert.
+
+Technisch ist Tuizz als modularer Baukasten konzipiert. Ein Kernsystem verwaltet Nutzer, Paare, Tänze und Medien. Darauf aufbauend arbeiten spezialisierte Module wie die Quiz‑Engine, die Jury‑Engine oder die Media‑Engine, die für die Verarbeitung von Bildern, Audio und Video zuständig ist. Diese Architektur ermöglicht es, neue Funktionen – etwa KI‑gestützte Schritt‑Erkennung, automatische Musik‑zu‑Tanz‑Zuordnung oder Gamification‑Elemente – jederzeit nachzurüsten, ohne das Gesamtsystem zu verändern. Die Plattform kann lokal, in der Cloud oder hybrid betrieben werden und unterstützt sowohl Web‑ als auch mobile Endgeräte.
+
+Besonders interessant wird Tuizz durch die Möglichkeit, Video‑Material tief in das System zu integrieren. Tänzerinnen und Tänzer können ihre eigenen Trainingsvideos hochladen, die später im Quiz verwendet oder von der Jury bewertet werden. Lehrvideos können Schrittfolgen erklären, während kurze Clips als Memory‑Karten dienen. In einer fortgeschrittenen Ausbaustufe kann eine KI Bewegungen analysieren, Fehler markieren oder Verbesserungsvorschläge machen. Dadurch wird Tuizz nicht nur ein Spiel‑ und Bewertungssystem, sondern ein umfassendes digitales Trainingswerkzeug.
+
+Das Gesamtkonzept lässt bewusst Raum für unterschiedliche Einsatzszenarien. Tanzschulen können Tuizz als Lernplattform nutzen, als Event‑Tool für interne Wettbewerbe oder als professionelles Bewertungssystem für größere Veranstaltungen. Durch die modulare Struktur lässt sich der Funktionsumfang exakt an die Bedürfnisse der jeweiligen Schule anpassen – von einer einfachen Quiz‑App bis hin zu einer vollwertigen Multimedia‑ und Bewertungsplattform.
+
+Wenn du möchtest, kann ich dieses Konzept jetzt auch in eine Pitch‑Version, eine technische Spezifikation, eine Roadmap, eine User‑Story‑Sammlung oder ein Architekturdiagramm überführen.
