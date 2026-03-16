@@ -1,0 +1,63 @@
+name: Robot Framework Tests
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  robot-tests:
+    name: Run Robot Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [ chrome, firefox ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install robotframework
+          pip install robotframework-seleniumlibrary
+          pip install selenium
+          pip install webdriver-manager
+
+      - name: Install browser drivers
+        run: |
+          python - << 'EOF'
+          from webdriver_manager.chrome import ChromeDriverManager
+          from webdriver_manager.firefox import GeckoDriverManager
+          ChromeDriverManager().install()
+          GeckoDriverManager().install()
+          EOF
+
+      - name: Run Robot Tests
+        env:
+          BROWSER: ${{ matrix.browser }}
+        run: |
+          robot \
+            --variable BROWSER:${{ matrix.browser }} \
+            --output output-${{ matrix.browser }}.xml \
+            --report report-${{ matrix.browser }}.html \
+            --log log-${{ matrix.browser }}.html \
+            tests/
+
+      - name: Upload Robot Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-reports-${{ matrix.browser }}
+          path: |
+            output-${{ matrix.browser }}.xml
+            report-${{ matrix.browser }}.html
+            log-${{ matrix.browser }}.html
