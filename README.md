@@ -4,6 +4,9 @@ Tuizz ist eine interaktive Web-Anwendung für Tanzschulen, die den Lernprozess s
 
 Oder ein Quizz : https://gemini.google.com/share/390a0afeaadd
 
+https://claude.ai/public/artifacts/0a2e15dc-bd9d-47d2-839c-c4df24ebc3f4 
+
+
 ## 🌟 Features
 
 - **Duale Modi:** Wechseln Sie zwischen dem **Tänzer-Modus** (Selbsteinschätzung) und dem **Jury-Modus** (Bewertung durch Experten).
