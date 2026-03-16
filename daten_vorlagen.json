@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "exportDate": "12.03.2026",
+  "participants": [
+    {
+      "id": 1,
+      "name": "Max & Maria",
+      "favoriteSong": null,
+      "mandatorySong": null,
+      "selfRating": { "r1": null, "r2": null },
+      "juryScores": { "r1": null, "r2": null },
+      "totalScore": 0,
+      "_bonus": 0
+    },
+    {
+      "id": 2,
+      "name": "Tom & Lisa",
+      "favoriteSong": null,
+      "mandatorySong": null,
+      "selfRating": { "r1": null, "r2": null },
+      "juryScores": { "r1": null, "r2": null },
+      "totalScore": 0,
+      "_bonus": 0
+    },
+    {
+      "id": 3,
+      "name": "Hans & Anna",
+      "favoriteSong": null,
+      "mandatorySong": null,
+      "selfRating": { "r1": null, "r2": null },
+      "juryScores": { "r1": null, "r2": null },
+      "totalScore": 0,
+      "_bonus": 0
+    }
+  ],
+  "playlists": {
+    "favorites": [
+      "Cha-Cha-Cha",
+      "Salsa",
+      "Wiener Walzer",
+      "Rumba",
+      "Jive",
+      "Paso Doble"
+    ],
+    "mandatory": [
+      "Tango",
+      "Foxtrott",
+      "Discofox",
+      "Quickstep",
+      "Langsamer Walzer"
+    ]
+  }
+}
