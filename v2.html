@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tuizz – Tanz Memory/Quiz</title>
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 14px; }
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: #f9fafb;
+      min-height: 100vh;
+      padding: 1rem;
+      color: #1f2937;
+    }
+
+```
+/* ── Layout ───────────────────────────────────────────────────────── */
+.container {
+  max-width: 48rem;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  padding: 1.5rem;
+}
+
+/* ── Typography helpers ───────────────────────────────────────────── */
+.dance-font {
+  font-family: Georgia, 'Times New Roman', cursive;
+  font-style: italic;
+  font-size: 2rem;
+  color: #e91e63;
+  line-height: 1.2;
+  font-weight: 700;
+}
+.section-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+.text-pink   { color: #e91e63; }
+.text-gray   { color: #6b7280; }
+.text-dark   { color: #374151; }
+.bold        { font-weight: 700; }
+.semibold    { font-weight: 600; }
+.medium      { font-weight: 500; }
+.text-xs     { font-size: 0.75rem; }
+.text-sm     { font-size: 0.85rem; }
+.text-lg     { font-size: 1.05rem; }
+.text-4xl    { font-size: 2.25rem; }
+.uppercase   { text-transform: uppercase; }
+.tracking    { letter-spacing: 0.05em; }
+.text-center { text-align: center; }
+.text-right  { text-align: right; }
+
+/* ── Spacing helpers ──────────────────────────────────────────────── */
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mt-4 { margin-top: 1rem; }
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.pt-3 { padding-top: 0.75rem; }
+
+/* ── Display helpers ──────────────────────────────────────────────── */
+.hidden        { display: none !important; }
+.inline-block  { display: inline-block; }
+.block         { display: block; }
+
+/* ── Flex helpers ─────────────────────────────────────────────────── */
+.flex          { display: flex; }
+.flex-wrap     { flex-wrap: wrap; }
+.flex-col      { flex-direction: column; }
+.items-center  { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-2         { gap: 0.5rem; }
+.flex-1        { flex: 1 1 0; min-width: 0; }
+
+/* ── Width ────────────────────────────────────────────────────────── */
+.w-full  { width: 100%; }
+
+/* ── Overflow ─────────────────────────────────────────────────────── */
+.overflow-x-auto { overflow-x: auto; }
+.overflow-y-auto { overflow-y: auto; }
+.max-h-40 { max-height: 10rem; }
+.max-h-48 { max-height: 12rem; }
+
+/* ── Header Banner ────────────────────────────────────────────────── */
+.header-banner {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  overflow: hidden;
+}
+.logo-section { flex: 1; min-width: 0; overflow: hidden; }
+.photo-section { flex-shrink: 0; }
+.logo-img  { max-height: 60px; max-width: 100%; }
+.photo-img { max-height: 70px; border-radius: 0.5rem; }
+.dance-badge {
+  background: #e91e63;
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: inline-block;
+  word-break: break-word;
+  max-width: 100%;
+  margin-top: 0.25rem;
+}
+
+/* ── Role Toggle ──────────────────────────────────────────────────── */
+.role-toggle {
+  display: flex;
+  margin-bottom: 1.5rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 2px solid #e91e63;
+}
+.role-btn {
+  flex: 1;
+  padding: 0.55rem 0.5rem;
+  text-align: center;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+  background: #fce7f3;
+  color: #9d174d;
+  user-select: none;
+}
+.role-btn:first-child { border-right: 1px solid #e91e63; }
+.role-btn.active {
+  background: #e91e63;
+  color: white;
+}
+
+/* ── Cards / Panels ───────────────────────────────────────────────── */
+.card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.6rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.card-pink   { background: #fdf2f8; border-color: #f9a8d4; }
+.card-yellow { background: #fefce8; border-color: #fde68a; }
+.card-red    { background: #fff1f2; border-color: #fecaca; }
+.card-green  { background: #f0fdf4; border-color: #bbf7d0; }
+.card-orange { background: #fff7ed; border-color: #fdba74; }
+
+/* ── Btn Group ────────────────────────────────────────────────────── */
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.btn-group > * {
+  flex: 1 1 auto;
+  min-width: 0;
+  word-break: break-word;
+  text-align: center;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────── */
+button, label.btn {
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  transition: filter 0.15s, transform 0.1s;
+  line-height: 1.4;
+}
+button:hover, label.btn:hover { filter: brightness(0.92); }
+button:active { transform: scale(0.97); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.btn-pink    { background: #e91e63; color: white; }
+.btn-blue    { background: #3b82f6; color: white; }
+.btn-indigo  { background: #6366f1; color: white; }
+.btn-green   { background: #22c55e; color: white; }
+.btn-yellow  { background: #eab308; color: white; }
+.btn-red     { background: #ef4444; color: white; }
+.btn-purple  { background: #a855f7; color: white; }
+.btn-orange  { background: #f97316; color: white; }
+.btn-gray    { background: #9ca3af; color: white; }
+.btn-ghost   { background: #e5e7eb; color: #374151; }
+
+/* ── Inputs / Selects ─────────────────────────────────────────────── */
+input[type="text"], input[type="file"], select, input:not([type="range"]):not([type="checkbox"]) {
+  font-family: inherit;
+  font-size: 0.85rem;
+  border: 1.5px solid #d1d5db;
+  border-radius: 0.4rem;
+  padding: 0.45rem 0.6rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  background: white;
+}
+input:focus, select:focus {
+  border-color: #e91e63;
+  box-shadow: 0 0 0 3px rgba(233,30,99,0.12);
+}
+input[type="range"] {
+  width: 100%;
+  cursor: pointer;
+  accent-color: #e91e63;
+}
+
+/* ── Divider ──────────────────────────────────────────────────────── */
+.divider {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 0.75rem 0;
+}
+
+/* ── Playlist Item ────────────────────────────────────────────────── */
+.playlist-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.3rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+}
+.playlist-item.yellow { background: #fef9c3; }
+.playlist-item.red    { background: #fee2e2; }
+.playlist-item:hover  { filter: brightness(0.96); }
+.delete-btn {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  line-height: 1;
+}
+.delete-btn:hover { color: #b91c1c; }
+
+/* ── Song Option ──────────────────────────────────────────────────── */
+.song-option {
+  cursor: pointer;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid #e5e7eb;
+  transition: all 0.15s;
+  word-break: break-word;
+  background: #fefce8;
+  font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+}
+.song-option:hover   { border-color: #e91e63; background: #fdf2f8; }
+.song-option.selected { border-color: #e91e63; background: #fce7f3; font-weight: 700; }
+
+/* ── Status Row ───────────────────────────────────────────────────── */
+.status-row { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.8rem; }
+.status-done    { color: #16a34a; font-weight: 600; }
+.status-pending { color: #9ca3af; }
+
+/* ── Round Badge ──────────────────────────────────────────────────── */
+.round-badge {
+  display: inline-block;
+  padding: 0.2rem 0.75rem;
+  border-radius: 2rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+.round-badge.r1 { background: #eab308; }
+.round-badge.r2 { background: #ef4444; }
+
+/* ── Slider Labels ────────────────────────────────────────────────── */
+.slider-container { margin-bottom: 0.75rem; }
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+.slider-value { color: #e91e63; font-weight: 700; }
+
+/* ── Table ────────────────────────────────────────────────────────── */
+table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+thead tr { background: #f3f4f6; }
+th, td { padding: 0.5rem; border: 1px solid #e5e7eb; }
+th { font-weight: 600; color: #374151; }
+td { color: #4b5563; }
+td.center, th.center { text-align: center; }
+td.bold-center { text-align: center; font-weight: 700; color: #111827; }
+td.green-center { text-align: center; color: #16a34a; font-weight: 600; }
+tr.row-even { background: #ffffff; }
+tr.row-odd  { background: #f9fafb; }
+
+/* ── Confirmation Icon ────────────────────────────────────────────── */
+.confirm-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+/* ── Feedback Banner ──────────────────────────────────────────────── */
+.feedback { font-size: 0.78rem; padding: 0.5rem 0.75rem; border-radius: 0.4rem; margin-top: 0.4rem; }
+.feedback.success { background: #dcfce7; color: #166534; }
+.feedback.error   { background: #fee2e2; color: #991b1b; }
+
+/* ── Export/Import Info text ──────────────────────────────────────── */
+.info-text { font-size: 0.72rem; color: #9ca3af; margin-top: 0.4rem; line-height: 1.5; }
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  body { padding: 0.5rem; }
+  .container { padding: 1rem; }
+  .header-banner { flex-direction: column; align-items: flex-start; }
+  .photo-section { display: none; }
+}
+```
+
+  </style>
+</head>
+<body>
+  <div class="container">
+
+```
+<!-- ── Header ────────────────────────────────────────────────────── -->
+<div class="header-banner">
+  <div class="logo-section">
+    <img src="https://mistralaichatupprodswe.blob.core.windows.net/chat-images/25/4a/bf/254abfa1-f8eb-4f59-b628-c27d13d41f07/4ed26a5e-a1e5-4af7-880b-846ec556669b/4ed26a5e-a1e5-4af7-880b-846ec556669b/fbc17194-55b1-4f6a-bbf7-cca7e75f24c1?sv=2025-01-05&st=2026-03-08T21%3A24%3A54Z&se=2026-03-08T22%3A24%3A54Z&sr=b&sp=r&sig=Zay%2FE1fGW%2FIjq5iC7kjILEa8BsynUxtkd2wedCQ2Khs%3D" alt="DanceINN Logo" class="logo-img">
+    <div class="mt-2">
+      <div class="dance-font">Tuizz</div>
+      <p class="text-sm semibold text-dark mt-1">Tanz Memory/Quiz</p>
+      <div class="dance-badge">Deine Tanzschule mit Persönlichkeit</div>
+    </div>
+  </div>
+  <div class="photo-section">
+    <img src="https://mistralaichatupprodswe.blob.core.windows.net/chat-images/25/4a/bf/254abfa1-f8eb-4f59-b628-c27d13d41f07/4ed26a5e-a1e5-4af7-880b-846ec556669b/97605f84-09ba-46b9-881c-6977161add4b?sv=2025-01-05&st=2026-03-08T21%3A24%3A54Z&se=2026-03-08T22%3A24%3A54Z&sr=b&sp=r&sig=Cdgu%2BOOkz8Q63n%2BIgd4Y6tQDY2fQJ2Nkn8JzRzt1%2FAo%3D" alt="Tanzsaal" class="photo-img">
+  </div>
+</div>
+
+<!-- ── Rollenauswahl ──────────────────────────────────────────────── -->
+<div class="role-toggle mb-6">
+  <div id="role-tanzer" class="role-btn active">🕺 Tänzer</div>
+  <div id="role-jury"   class="role-btn">⭐ Jury</div>
+</div>
+
+<!-- ── Playlist-Verwaltung ────────────────────────────────────────── -->
+<div class="card card-pink mb-6">
+  <div class="section-title">Playlist-Verwaltung</div>
+  <div class="btn-group mb-4">
+    <button id="show-favorites"    class="btn-yellow">🎵 Lieblingstänze</button>
+    <button id="show-mandatory"    class="btn-red">📋 Pflicht-Tänze</button>
+    <button id="add-participant-btn" class="btn-green">👥 Teilnehmer</button>
+  </div>
+
+  <!-- Lieblingstänze -->
+  <div id="playlist-favorites" class="hidden">
+    <p class="text-sm semibold mb-2" style="color:#854d0e">Lieblingstänze:</p>
+    <div id="favorites-list" class="max-h-40 overflow-y-auto mb-3"></div>
+    <div class="flex gap-2">
+      <input id="new-favorite-song" placeholder="Neuen Lieblingstanz eingeben" style="flex:1">
+      <button id="add-favorite" class="btn-yellow" style="flex-shrink:0">+</button>
+    </div>
+  </div>
+
+  <!-- Pflicht-Tänze -->
+  <div id="playlist-mandatory" class="hidden">
+    <p class="text-sm semibold mb-2" style="color:#991b1b">Pflicht-Tänze:</p>
+    <div id="mandatory-list" class="max-h-40 overflow-y-auto mb-3"></div>
+    <div class="flex gap-2">
+      <input id="new-mandatory-song" placeholder="Neuen Pflicht-Tanz eingeben" style="flex:1">
+      <button id="add-mandatory" class="btn-red" style="flex-shrink:0">+</button>
+    </div>
+  </div>
+
+  <!-- Teilnehmer -->
+  <div id="participant-management" class="hidden">
+    <p class="text-sm semibold mb-2" style="color:#166534">Neues Paar hinzufügen:</p>
+    <div class="flex gap-2 mb-4">
+      <input id="new-participant-name" placeholder="Name des Paares / Tänzers" style="flex:1">
+      <button id="save-participant" class="btn-green" style="flex-shrink:0">Speichern</button>
+    </div>
+
+    <hr class="divider">
+    <p class="text-sm semibold mb-2 mt-3" style="color:#1d4ed8">💾 Daten sichern &amp; laden:</p>
+    <div class="btn-group mb-2">
+      <button id="export-json" class="btn-blue">⬇️ Exportieren</button>
+      <label class="btn btn-indigo" style="display:flex;align-items:center;justify-content:center;cursor:pointer">
+        ⬆️ Importieren
+        <input type="file" id="import-json" accept=".json" class="hidden">
+      </label>
+    </div>
+    <div id="import-feedback" class="hidden"></div>
+    <p class="info-text">Export → per E-Mail senden. Import überschreibt alle Daten.</p>
+
+    <hr class="divider">
+    <p class="text-sm semibold mb-2 mt-3" style="color:#7c3aed">🔀 Jury-Dateien zusammenführen:</p>
+    <label class="btn btn-purple w-full mb-2" style="display:flex;align-items:center;justify-content:center;cursor:pointer;gap:0.4rem">
+      📂 Mehrere JSON-Dateien wählen
+      <input type="file" id="merge-json" accept=".json" multiple class="hidden">
+    </label>
+    <div id="merge-preview" class="hidden" style="background:#faf5ff;border:1px solid #d8b4fe;border-radius:0.4rem;padding:0.75rem;margin-bottom:0.5rem">
+      <p class="text-sm semibold mb-2" style="color:#6d28d9">Vorschau – gefundene Dateien:</p>
+      <div id="merge-file-list" class="text-xs mb-3" style="color:#4b5563"></div>
+      <p class="text-sm semibold mb-1" style="color:#6d28d9">Ergebnis nach Zusammenführung:</p>
+      <div id="merge-result-table" class="overflow-x-auto mb-3"></div>
+      <div class="btn-group">
+        <button id="merge-confirm" class="btn-purple">✓ Zusammenführen & Speichern</button>
+        <button id="merge-cancel"  class="btn-ghost">✕ Abbrechen</button>
+      </div>
+    </div>
+    <div id="merge-feedback" class="hidden"></div>
+    <p class="info-text">Jede Jury-Person exportiert ihre Datei → per E-Mail an Zentralperson → hier alle auf einmal wählen → Jury-Wertungen werden automatisch gemittelt.</p>
+
+    <hr class="divider">
+    <button id="reset-all" class="btn-ghost w-full mt-2 text-xs">🗑️ Alle Wertungen zurücksetzen</button>
+  </div>
+</div>
+
+<!-- ── Teilnehmerauswahl ──────────────────────────────────────────── -->
+<div id="participant-select" class="card mb-4">
+  <div class="section-title mb-3">Paar auswählen:</div>
+  <select id="participant-dropdown" class="mb-3">
+    <option value="">-- Wähle ein Paar --</option>
+  </select>
+  <div id="pair-status" class="hidden mb-3" style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:0.4rem;padding:0.6rem 0.75rem">
+    <p class="text-xs uppercase tracking semibold mb-1" style="color:#6b7280">Status:</p>
+    <div class="status-row">
+      <span>🟡 R1 Lieblingstanz: <span id="status-r1"></span></span>
+      <span>🔴 R2 Pflicht-Tanz: <span id="status-r2"></span></span>
+    </div>
+  </div>
+  <button id="start-btn" class="btn-blue w-full">Weiter →</button>
+</div>
+
+<!-- ── Runde auswählen ────────────────────────────────────────────── -->
+<div id="round-select" class="card hidden mb-4">
+  <div class="section-title mb-3">
+    Runde für: <span id="round-select-name" class="text-pink bold"></span>
+  </div>
+  <div class="btn-group mb-3">
+    <button id="round-favorite" class="btn-yellow" style="padding:0.75rem 0.5rem;line-height:1.5">
+      🟡 Runde 1<br><span style="font-weight:400;font-size:0.75rem">Lieblingstanz wählen</span>
+    </button>
+    <button id="round-mandatory" class="btn-red" style="padding:0.75rem 0.5rem;line-height:1.5">
+      🔴 Runde 2<br><span style="font-weight:400;font-size:0.75rem">Pflicht-Tanz (zufällig)</span>
+    </button>
+  </div>
+  <button id="back-to-select" class="btn-ghost w-full text-sm">← Zurück</button>
+</div>
+
+<!-- ── Song-Auswahl (Lieblingstanz) ──────────────────────────────── -->
+<div id="song-select-view" class="card card-yellow hidden mb-4">
+  <div class="section-title mb-1">🟡 Lieblingstanz wählen</div>
+  <p class="text-sm mb-1" style="color:#6b7280">
+    Paar: <span id="song-select-name" class="bold text-pink"></span>
+  </p>
+  <p class="text-sm mb-3" style="color:#4b5563">Wähle euren Lieblingstanz aus der Liste:</p>
+  <div id="song-options" class="max-h-48 overflow-y-auto mb-4"></div>
+  <button id="confirm-song-select" class="btn-yellow w-full" disabled>✓ Tanz bestätigen</button>
+</div>
+
+<!-- ── Tänzer-Ansicht ─────────────────────────────────────────────── -->
+<div id="tanzer-view" class="card hidden">
+  <div id="tanzer-round-badge" class="round-badge"></div>
+  <p class="text-lg semibold mb-1 text-dark">
+    Tänzer: <span id="tanzer-name" class="bold text-pink"></span>
+  </p>
+  <p class="mb-4" style="color:#6b7280">
+    Tanz: <strong id="tanzer-song" class="text-pink"></strong>
+  </p>
+  <div class="mb-4">
+    <label class="block semibold mb-2 text-dark">Selbsteinschätzung (1–4):</label>
+    <select id="self-rating">
+      <option value="1">1 – Passabel</option>
+      <option value="2">2 – OK</option>
+      <option value="3">3 – Gut</option>
+      <option value="4">4 – Sehr gut</option>
+    </select>
+  </div>
+  <button id="tanzer-submit" class="btn-green w-full">✓ Bestätigen</button>
+</div>
+
+<!-- ── Jury-Ansicht ───────────────────────────────────────────────── -->
+<div id="jury-view" class="card hidden">
+  <div id="jury-round-badge" class="round-badge"></div>
+  <p class="text-lg semibold mb-1 text-dark">
+    Jury: Bewerte <span id="jury-name" class="bold text-pink"></span>
+  </p>
+  <p class="mb-4" style="color:#6b7280">
+    Tanz: <strong id="jury-song" class="text-pink"></strong>
+  </p>
+  <div class="slider-container">
+    <div class="slider-label"><span>Kreativität</span><span class="slider-value" id="creativity-value">5</span></div>
+    <input type="range" id="creativity" min="1" max="10" value="5">
+  </div>
+  <div class="slider-container">
+    <div class="slider-label"><span>Rhythmus</span><span class="slider-value" id="rhythm-value">5</span></div>
+    <input type="range" id="rhythm" min="1" max="10" value="5">
+  </div>
+  <div class="slider-container">
+    <div class="slider-label"><span>Ausstrahlung</span><span class="slider-value" id="presence-value">5</span></div>
+    <input type="range" id="presence" min="1" max="10" value="5">
+  </div>
+  <div class="slider-container">
+    <div class="slider-label"><span>Technik</span><span class="slider-value" id="technique-value">5</span></div>
+    <input type="range" id="technique" min="1" max="10" value="5">
+  </div>
+  <button id="jury-submit" class="btn-purple w-full mt-4">★ Bewertung abgeben</button>
+</div>
+
+<!-- ── Jury Warnung ───────────────────────────────────────────────── -->
+<div id="jury-warning" class="card card-orange hidden text-center mb-4">
+  <p class="semibold mb-1" style="color:#c2410c">⚠️ Tänzer hat noch keinen Song für diese Runde festgelegt!</p>
+  <p class="text-sm mt-1" style="color:#ea580c">Bitte den Tänzer zuerst Runde 1 abschließen lassen.</p>
+  <button id="jury-warning-back" class="btn-orange mt-3">← Zurück</button>
+</div>
+
+<!-- ── Bestätigung ────────────────────────────────────────────────── -->
+<div id="confirmation-view" class="card text-center hidden">
+  <div class="confirm-icon">✅</div>
+  <p class="text-lg semibold mb-2 text-dark">
+    Danke für deine <span id="confirmation-role" class="text-pink bold"></span>!
+  </p>
+  <p class="mb-1" style="color:#6b7280">Paar: <span id="confirmation-name" class="bold text-pink"></span></p>
+  <p class="mb-4" style="color:#6b7280">Tanz: <span id="confirmation-song" class="medium"></span></p>
+  <button id="back-to-start" class="btn-gray w-full">← Zurück zur Auswahl</button>
+</div>
+
+<!-- ── Ranking ────────────────────────────────────────────────────── -->
+<div class="card" style="margin-top:1.5rem">
+  <div class="section-title mb-3">🏆 Ranking</div>
+  <div class="overflow-x-auto">
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align:left;min-width:80px">Paar</th>
+          <th class="center" style="width:60px">R1 Ø</th>
+          <th class="center" style="width:60px">R2 Ø</th>
+          <th class="center" style="width:50px">Bonus</th>
+          <th class="center" style="width:60px">Gesamt</th>
+        </tr>
+      </thead>
+      <tbody id="ranking-body"></tbody>
+    </table>
+  </div>
+</div>
+```
+
+  </div><!-- /container -->
+
+  <script>
+    // ── Datenmodell ─────────────────────────────────────────────────────────
+    let participants = JSON.parse(localStorage.getItem('tuizzParticipants')) || [
+      { id:1, name:'Max & Maria', favoriteSong:null, mandatorySong:null, selfRating:{r1:null,r2:null}, juryScores:{r1:null,r2:null}, totalScore:0 },
+      { id:2, name:'Tom & Lisa',  favoriteSong:null, mandatorySong:null, selfRating:{r1:null,r2:null}, juryScores:{r1:null,r2:null}, totalScore:0 },
+    ];
+
+    let playlists = JSON.parse(localStorage.getItem('tuizzPlaylists')) || {
+      favorites: ['Cha-Cha-Cha','Salsa','Wiener Walzer'],
+      mandatory: ['Tango','Foxtrott','Discofox'],
+    };
+
+    // Migrationspfad: alte Daten ohne neue Felder upgraden
+    participants = participants.map(p => ({
+      ...p,
+      favoriteSong:  p.favoriteSong  ?? p.song ?? null,
+      mandatorySong: p.mandatorySong ?? null,
+      selfRating:  (p.selfRating  && typeof p.selfRating  === 'object' && !Array.isArray(p.selfRating))  ? p.selfRating  : { r1:null, r2:null },
+      juryScores:  (p.juryScores  && typeof p.juryScores  === 'object' && !Array.isArray(p.juryScores))  ? p.juryScores  : { r1:null, r2:null },
+      totalScore:  p.totalScore  ?? 0,
+      _bonus:      p._bonus      ?? 0,
+    }));
+
+    let currentRole        = 'tanzer';
+    let currentParticipant = null;
+    let currentRound       = null;   // 'r1' | 'r2'
+    let selectedSong       = null;
+
+    // ── DOM-Referenzen ───────────────────────────────────────────────────────
+    const roleTanzer          = document.getElementById('role-tanzer');
+    const roleJury            = document.getElementById('role-jury');
+    const participantDropdown = document.getElementById('participant-dropdown');
+    const startBtn            = document.getElementById('start-btn');
+    const pairStatus          = document.getElementById('pair-status');
+    const statusR1            = document.getElementById('status-r1');
+    const statusR2            = document.getElementById('status-r2');
+    const roundSelect         = document.getElementById('round-select');
+    const roundSelectName     = document.getElementById('round-select-name');
+    const songSelectView      = document.getElementById('song-select-view');
+    const songSelectName      = document.getElementById('song-select-name');
+    const songOptions         = document.getElementById('song-options');
+    const confirmSongSelect   = document.getElementById('confirm-song-select');
+    const tanzerView          = document.getElementById('tanzer-view');
+    const juryView            = document.getElementById('jury-view');
+    const juryWarning         = document.getElementById('jury-warning');
+    const confirmationView    = document.getElementById('confirmation-view');
+    const tanzerName          = document.getElementById('tanzer-name');
+    const tanzerSong          = document.getElementById('tanzer-song');
+    const tanzerRoundBadge    = document.getElementById('tanzer-round-badge');
+    const juryName            = document.getElementById('jury-name');
+    const jurySong            = document.getElementById('jury-song');
+    const juryRoundBadge      = document.getElementById('jury-round-badge');
+    const selfRating          = document.getElementById('self-rating');
+    const tanzerSubmit        = document.getElementById('tanzer-submit');
+    const jurySubmit          = document.getElementById('jury-submit');
+    const roundFavorite       = document.getElementById('round-favorite');
+    const roundMandatory      = document.getElementById('round-mandatory');
+    const rankingBody         = document.getElementById('ranking-body');
+    const showFavorites       = document.getElementById('show-favorites');
+    const showMandatory       = document.getElementById('show-mandatory');
+    const addParticipantBtn   = document.getElementById('add-participant-btn');
+    const participantMgmt     = document.getElementById('participant-management');
+    const newParticipantName  = document.getElementById('new-participant-name');
+    const saveParticipant     = document.getElementById('save-participant');
+    const playlistFavorites   = document.getElementById('playlist-favorites');
+    const playlistMandatory   = document.getElementById('playlist-mandatory');
+    const favoritesList       = document.getElementById('favorites-list');
+    const mandatoryList       = document.getElementById('mandatory-list');
+    const newFavoriteSong     = document.getElementById('new-favorite-song');
+    const newMandatorySong    = document.getElementById('new-mandatory-song');
+    const addFavorite         = document.getElementById('add-favorite');
+    const addMandatory        = document.getElementById('add-mandatory');
+    const confirmationRole    = document.getElementById('confirmation-role');
+    const confirmationName    = document.getElementById('confirmation-name');
+    const confirmationSong    = document.getElementById('confirmation-song');
+    const backToStart         = document.getElementById('back-to-start');
+    const backToSelect        = document.getElementById('back-to-select');
+    const juryWarningBack     = document.getElementById('jury-warning-back');
+    const resetAll            = document.getElementById('reset-all');
+
+    // ── Hilfsfunktionen ──────────────────────────────────────────────────────
+    function saveToLocalStorage() {
+      localStorage.setItem('tuizzParticipants', JSON.stringify(participants));
+      localStorage.setItem('tuizzPlaylists',    JSON.stringify(playlists));
+    }
+
+    function hideAllViews() {
+      [roundSelect, songSelectView, tanzerView, juryView, juryWarning, confirmationView]
+        .forEach(v => v.classList.add('hidden'));
+    }
+
+    function showParticipantSelect() {
+      hideAllViews();
+      document.getElementById('participant-select').classList.remove('hidden');
+    }
+
+    function setRoundBadge(el, round) {
+      el.textContent = round === 'r1' ? '🟡 Runde 1 – Lieblingstanz' : '🔴 Runde 2 – Pflicht-Tanz';
+      el.className   = 'round-badge ' + (round === 'r1' ? 'r1' : 'r2');
+    }
+
+    function calcTotalScore(p) {
+      let total = 0, bonus = 0;
+      if (p.juryScores.r1 !== null) {
+        total += p.juryScores.r1.average;
+        if (p.selfRating.r1 !== null) {
+          const dev = Math.abs(p.selfRating.r1 - Math.round((p.juryScores.r1.average / 10) * 4));
+          if (dev === 0) bonus += 3; else if (dev === 1) bonus += 2;
+        }
+      }
+      if (p.juryScores.r2 !== null) {
+        total += p.juryScores.r2.average;
+        if (p.selfRating.r2 !== null) {
+          const dev = Math.abs(p.selfRating.r2 - Math.round((p.juryScores.r2.average / 10) * 4));
+          if (dev === 0) bonus += 3; else if (dev === 1) bonus += 2;
+        }
+      }
+      p.totalScore = total + bonus;
+      p._bonus = bonus;
+    }
+
+    // ── Rollenauswahl ────────────────────────────────────────────────────────
+    roleTanzer.addEventListener('click', () => {
+      currentRole = 'tanzer';
+      roleTanzer.classList.add('active');
+      roleJury.classList.remove('active');
+    });
+    roleJury.addEventListener('click', () => {
+      currentRole = 'jury';
+      roleJury.classList.add('active');
+      roleTanzer.classList.remove('active');
+    });
+
+    // ── Playlist-UI ──────────────────────────────────────────────────────────
+    function updatePlaylistUI() {
+      favoritesList.innerHTML = '';
+      playlists.favorites.forEach((song, i) => {
+        const el = document.createElement('div');
+        el.className = 'playlist-item yellow';
+        el.innerHTML = `<span>${song}</span><button class="delete-btn" data-type="favorites" data-index="${i}">×</button>`;
+        favoritesList.appendChild(el);
+      });
+      mandatoryList.innerHTML = '';
+      playlists.mandatory.forEach((song, i) => {
+        const el = document.createElement('div');
+        el.className = 'playlist-item red';
+        el.innerHTML = `<span>${song}</span><button class="delete-btn" data-type="mandatory" data-index="${i}">×</button>`;
+        mandatoryList.appendChild(el);
+      });
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          playlists[e.target.dataset.type].splice(parseInt(e.target.dataset.index), 1);
+          saveToLocalStorage();
+          updatePlaylistUI();
+        });
+      });
+    }
+
+    // ── Teilnehmer-Dropdown ──────────────────────────────────────────────────
+    function updateParticipantDropdown() {
+      participantDropdown.innerHTML = '<option value="">-- Wähle ein Paar --</option>';
+      participants.forEach(p => {
+        const o = document.createElement('option');
+        o.value = p.id; o.textContent = p.name;
+        participantDropdown.appendChild(o);
+      });
+    }
+
+    participantDropdown.addEventListener('change', () => {
+      const p = participants.find(x => x.id === parseInt(participantDropdown.value));
+      if (!p) { pairStatus.classList.add('hidden'); return; }
+      pairStatus.classList.remove('hidden');
+      statusR1.textContent  = p.favoriteSong  ? `"${p.favoriteSong}" gewählt`  : 'noch kein Tanz';
+      statusR2.textContent  = p.mandatorySong ? `"${p.mandatorySong}" vergeben` : 'noch nicht vergeben';
+      statusR1.className = p.favoriteSong  ? 'status-done' : 'status-pending';
+      statusR2.className = p.mandatorySong ? 'status-done' : 'status-pending';
+    });
+
+    // ── Playlist-Verwaltung Buttons ──────────────────────────────────────────
+    showFavorites.addEventListener('click', () => {
+      playlistFavorites.classList.remove('hidden');
+      playlistMandatory.classList.add('hidden');
+      participantMgmt.classList.add('hidden');
+    });
+    showMandatory.addEventListener('click', () => {
+      playlistMandatory.classList.remove('hidden');
+      playlistFavorites.classList.add('hidden');
+      participantMgmt.classList.add('hidden');
+    });
+    addParticipantBtn.addEventListener('click', () => {
+      participantMgmt.classList.remove('hidden');
+      playlistFavorites.classList.add('hidden');
+      playlistMandatory.classList.add('hidden');
+    });
+    addFavorite.addEventListener('click', () => {
+      const s = newFavoriteSong.value.trim();
+      if (s) { playlists.favorites.push(s); newFavoriteSong.value = ''; saveToLocalStorage(); updatePlaylistUI(); }
+    });
+    addMandatory.addEventListener('click', () => {
+      const s = newMandatorySong.value.trim();
+      if (s) { playlists.mandatory.push(s); newMandatorySong.value = ''; saveToLocalStorage(); updatePlaylistUI(); }
+    });
+    saveParticipant.addEventListener('click', () => {
+      const name = newParticipantName.value.trim();
+      if (name) {
+        const newId = participants.length > 0 ? Math.max(...participants.map(p => p.id)) + 1 : 1;
+        participants.push({ id:newId, name, favoriteSong:null, mandatorySong:null,
+          selfRating:{r1:null,r2:null}, juryScores:{r1:null,r2:null}, totalScore:0, _bonus:0 });
+        newParticipantName.value = '';
+        saveToLocalStorage();
+        updateParticipantDropdown();
+        participantMgmt.classList.add('hidden');
+      }
+    });
+    resetAll.addEventListener('click', () => {
+      if (confirm('Alle Wertungen und Song-Vergaben zurücksetzen?')) {
+        participants = participants.map(p => ({
+          ...p, favoriteSong:null, mandatorySong:null,
+          selfRating:{r1:null,r2:null}, juryScores:{r1:null,r2:null}, totalScore:0, _bonus:0
+        }));
+        saveToLocalStorage(); updateParticipantDropdown(); updateRanking();
+        pairStatus.classList.add('hidden');
+        alert('Alle Wertungen zurückgesetzt.');
+      }
+    });
+
+    // ── Export JSON ──────────────────────────────────────────────────────────
+    document.getElementById('export-json').addEventListener('click', () => {
+      const data = { version:1, exportDate: new Date().toLocaleDateString('de-DE'), participants, playlists };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = `tuizz-daten-${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // ── Import JSON ──────────────────────────────────────────────────────────
+    document.getElementById('import-json').addEventListener('change', e => {
+      const file     = e.target.files[0];
+      const feedback = document.getElementById('import-feedback');
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          if (!data.participants || !data.playlists)            throw new Error('Fehlende Felder: participants / playlists');
+          if (!Array.isArray(data.participants))                throw new Error('participants muss eine Liste sein');
+          if (!Array.isArray(data.playlists.favorites) ||
+              !Array.isArray(data.playlists.mandatory))        throw new Error('playlists.favorites / mandatory fehlen');
+          if (!confirm(`${data.participants.length} Paare laden?\nAlle aktuellen Daten werden überschrieben.`))
+            { e.target.value = ''; return; }
+
+          participants = data.participants.map(p => ({
+            id: p.id, name: p.name,
+            favoriteSong:  p.favoriteSong  ?? null,
+            mandatorySong: p.mandatorySong ?? null,
+            selfRating:  (p.selfRating  && typeof p.selfRating  === 'object' && !Array.isArray(p.selfRating))  ? p.selfRating  : {r1:null,r2:null},
+            juryScores:  (p.juryScores  && typeof p.juryScores  === 'object' && !Array.isArray(p.juryScores))  ? p.juryScores  : {r1:null,r2:null},
+            totalScore: p.totalScore ?? 0, _bonus: p._bonus ?? 0,
+          }));
+          playlists = data.playlists;
+          saveToLocalStorage(); updateParticipantDropdown(); updatePlaylistUI(); updateRanking();
+          feedback.className   = 'feedback success';
+          feedback.textContent = `✅ ${participants.length} Paare geladen (${data.exportDate || '–'}).`;
+          feedback.classList.remove('hidden');
+        } catch (err) {
+          feedback.className   = 'feedback error';
+          feedback.textContent = `❌ Fehler: ${err.message}`;
+          feedback.classList.remove('hidden');
+        }
+        e.target.value = '';
+      };
+      reader.readAsText(file);
+    });
+
+    // ── Merge JSON (mehrere Jury-Dateien zusammenführen) ─────────────────────
+    let mergeDatasets = []; // gesammelte geparste Dateien
+
+    document.getElementById('merge-json').addEventListener('change', e => {
+      const files = Array.from(e.target.files);
+      const feedback = document.getElementById('merge-feedback');
+      feedback.classList.add('hidden');
+      if (!files.length) return;
+
+      mergeDatasets = [];
+      let loaded = 0;
+
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          try {
+            const data = JSON.parse(ev.target.result);
+            if (!data.participants || !Array.isArray(data.participants)) throw new Error('Ungültiges Format');
+            mergeDatasets.push({ filename: file.name, date: data.exportDate || '?', data });
+          } catch(err) {
+            mergeDatasets.push({ filename: file.name, error: err.message });
+          }
+          loaded++;
+          if (loaded === files.length) renderMergePreview();
+        };
+        reader.readAsText(file);
+      });
+      e.target.value = '';
+    });
+
+    function renderMergePreview() {
+      const preview    = document.getElementById('merge-preview');
+      const fileList   = document.getElementById('merge-file-list');
+      const resultDiv  = document.getElementById('merge-result-table');
+      const confirmBtn = document.getElementById('merge-confirm');
+
+      // Dateiliste anzeigen
+      fileList.innerHTML = mergeDatasets.map(ds =>
+        ds.error
+          ? `<div style="color:#dc2626">❌ ${ds.filename}: ${ds.error}</div>`
+          : `<div style="color:#166534">✅ ${ds.filename} — ${ds.date} — ${ds.data.participants.length} Paare</div>`
+      ).join('');
+
+      const validSets = mergeDatasets.filter(ds => !ds.error);
+      if (!validSets.length) {
+        resultDiv.innerHTML = '<p style="color:#dc2626;font-size:0.78rem">Keine gültigen Dateien gefunden.</p>';
+        confirmBtn.disabled = true;
+        preview.classList.remove('hidden');
+        return;
+      }
+
+      // Merge-Vorschau berechnen
+      const merged = computeMerge(validSets);
+
+      // Vorschau-Tabelle
+      let html = '<table style="width:100%;border-collapse:collapse;font-size:0.75rem">';
+      html += '<thead><tr style="background:#ede9fe">';
+      html += '<th style="padding:0.3rem 0.5rem;border:1px solid #c4b5fd;text-align:left">Paar</th>';
+      html += '<th style="padding:0.3rem 0.5rem;border:1px solid #c4b5fd;text-align:center">R1 Jury-Ø</th>';
+      html += '<th style="padding:0.3rem 0.5rem;border:1px solid #c4b5fd;text-align:center">R2 Jury-Ø</th>';
+      html += '<th style="padding:0.3rem 0.5rem;border:1px solid #c4b5fd;text-align:center">Dateien</th>';
+      html += '<th style="padding:0.3rem 0.5rem;border:1px solid #c4b5fd;text-align:center">Gesamt</th>';
+      html += '</tr></thead><tbody>';
+
+      merged.sort((a,b) => b.totalScore - a.totalScore).forEach((p, i) => {
+        const bg = i%2===0 ? '#faf5ff' : '#f5f3ff';
+        html += `<tr style="background:${bg}">`;
+        html += `<td style="padding:0.3rem 0.5rem;border:1px solid #e9d5ff">${p.name}</td>`;
+        html += `<td style="padding:0.3rem 0.5rem;border:1px solid #e9d5ff;text-align:center">${p.juryScores.r1 ? p.juryScores.r1.average.toFixed(1) : '–'}</td>`;
+        html += `<td style="padding:0.3rem 0.5rem;border:1px solid #e9d5ff;text-align:center">${p.juryScores.r2 ? p.juryScores.r2.average.toFixed(1) : '–'}</td>`;
+        html += `<td style="padding:0.3rem 0.5rem;border:1px solid #e9d5ff;text-align:center;color:#7c3aed">${p._sourceCount || 1}</td>`;
+        html += `<td style="padding:0.3rem 0.5rem;border:1px solid #e9d5ff;text-align:center;font-weight:700">${p.totalScore > 0 ? p.totalScore.toFixed(1) : '–'}</td>`;
+        html += '</tr>';
+      });
+      html += '</tbody></table>';
+      resultDiv.innerHTML = html;
+      confirmBtn.disabled = false;
+      preview.classList.remove('hidden');
+    }
+
+    // Kern-Merge-Logik: mittelt Jury-Scores über alle Dateien pro Paar (per Name)
+    function computeMerge(validSets) {
+      // Index: Name → { juryR1Averages[], juryR2Averages[], selfRating, songs, ... }
+      const byName = {};
+
+      validSets.forEach(ds => {
+        ds.data.participants.forEach(p => {
+          const key = p.name.trim().toLowerCase();
+          if (!byName[key]) {
+            byName[key] = {
+              id:            p.id,
+              name:          p.name,
+              favoriteSong:  p.favoriteSong  ?? null,
+              mandatorySong: p.mandatorySong ?? null,
+              selfRating:    { r1: null, r2: null },
+              r1Averages:    [],
+              r2Averages:    [],
+              _sourceCount:  0,
+            };
+          }
+          const entry = byName[key];
+          entry._sourceCount++;
+
+          // Songs übernehmen falls noch nicht gesetzt
+          if (!entry.favoriteSong  && p.favoriteSong)  entry.favoriteSong  = p.favoriteSong;
+          if (!entry.mandatorySong && p.mandatorySong) entry.mandatorySong = p.mandatorySong;
+
+          // Selbsteinschätzung übernehmen (erste gefundene)
+          if (entry.selfRating.r1 === null && p.selfRating?.r1 !== null && p.selfRating?.r1 !== undefined)
+            entry.selfRating.r1 = p.selfRating.r1;
+          if (entry.selfRating.r2 === null && p.selfRating?.r2 !== null && p.selfRating?.r2 !== undefined)
+            entry.selfRating.r2 = p.selfRating.r2;
+
+          // Jury-Wertungen sammeln
+          if (p.juryScores?.r1?.average !== undefined) entry.r1Averages.push(p.juryScores.r1.average);
+          if (p.juryScores?.r2?.average !== undefined) entry.r2Averages.push(p.juryScores.r2.average);
+        });
+      });
+
+      // Mittelwerte berechnen und Teilnehmer-Objekte erstellen
+      return Object.values(byName).map(entry => {
+        const juryR1 = entry.r1Averages.length
+          ? { average: entry.r1Averages.reduce((a,b)=>a+b,0) / entry.r1Averages.length }
+          : null;
+        const juryR2 = entry.r2Averages.length
+          ? { average: entry.r2Averages.reduce((a,b)=>a+b,0) / entry.r2Averages.length }
+          : null;
+        const p = {
+          id:            entry.id,
+          name:          entry.name,
+          favoriteSong:  entry.favoriteSong,
+          mandatorySong: entry.mandatorySong,
+          selfRating:    entry.selfRating,
+          juryScores:    { r1: juryR1, r2: juryR2 },
+          totalScore:    0,
+          _bonus:        0,
+          _sourceCount:  entry._sourceCount,
+        };
+        calcTotalScore(p);
+        return p;
+      });
+    }
+
+    document.getElementById('merge-confirm').addEventListener('click', () => {
+      const validSets = mergeDatasets.filter(ds => !ds.error);
+      if (!validSets.length) return;
+      const merged = computeMerge(validSets);
+      participants = merged;
+      // Playlists aus erster gültiger Datei übernehmen falls vorhanden
+      if (validSets[0].data.playlists) playlists = validSets[0].data.playlists;
+      saveToLocalStorage();
+      updateParticipantDropdown();
+      updatePlaylistUI();
+      updateRanking();
+      document.getElementById('merge-preview').classList.add('hidden');
+      const fb = document.getElementById('merge-feedback');
+      fb.className   = 'feedback success';
+      fb.textContent = `✅ ${merged.length} Paare aus ${validSets.length} Dateien zusammengeführt und gespeichert.`;
+      fb.classList.remove('hidden');
+      mergeDatasets = [];
+    });
+
+    document.getElementById('merge-cancel').addEventListener('click', () => {
+      document.getElementById('merge-preview').classList.add('hidden');
+      mergeDatasets = [];
+    });
+    startBtn.addEventListener('click', () => {
+      const id = parseInt(participantDropdown.value);
+      if (!id) { alert('Bitte wähle ein Paar aus!'); return; }
+      currentParticipant = participants.find(p => p.id === id);
+      if (!currentParticipant) return;
+      document.getElementById('participant-select').classList.add('hidden');
+      roundSelectName.textContent = currentParticipant.name;
+
+      const r1Done = currentRole === 'tanzer' ? currentParticipant.selfRating.r1 !== null : currentParticipant.juryScores.r1 !== null;
+      const r2Done = currentRole === 'tanzer' ? currentParticipant.selfRating.r2 !== null : currentParticipant.juryScores.r2 !== null;
+      roundFavorite.innerHTML  = (r1Done ? '✅ Runde 1' : '🟡 Runde 1') + '<br><span style="font-weight:400;font-size:0.75rem">' + (r1Done ? 'bereits bewertet' : 'Lieblingstanz wählen') + '</span>';
+      roundMandatory.innerHTML = (r2Done ? '✅ Runde 2' : '🔴 Runde 2') + '<br><span style="font-weight:400;font-size:0.75rem">' + (r2Done ? 'bereits bewertet' : 'Pflicht-Tanz (zufällig)') + '</span>';
+      roundSelect.classList.remove('hidden');
+    });
+
+    backToSelect.addEventListener('click', () => {
+      roundSelect.classList.add('hidden');
+      showParticipantSelect();
+    });
+
+    // ── Runde 1: Lieblingstanz ───────────────────────────────────────────────
+    roundFavorite.addEventListener('click', () => {
+      currentRound = 'r1';
+      roundSelect.classList.add('hidden');
+      if (currentRole === 'tanzer') {
+        if (!currentParticipant.favoriteSong) {
+          if (!playlists.favorites.length) { alert('Bitte füge zuerst Lieblingstänze hinzu!'); roundSelect.classList.remove('hidden'); return; }
+          songSelectName.textContent = currentParticipant.name;
+          songOptions.innerHTML = '';
+          selectedSong = null;
+          confirmSongSelect.disabled = true;
+          playlists.favorites.forEach(song => {
+            const div = document.createElement('div');
+            div.className = 'song-option';
+            div.textContent = song;
+            div.addEventListener('click', () => {
+              document.querySelectorAll('.song-option').forEach(d => d.classList.remove('selected'));
+              div.classList.add('selected');
+              selectedSong = song;
+              confirmSongSelect.disabled = false;
+            });
+            songOptions.appendChild(div);
+          });
+          songSelectView.classList.remove('hidden');
+        } else {
+          showTanzerView();
+        }
+      } else {
+        if (!currentParticipant.favoriteSong) { juryWarning.classList.remove('hidden'); return; }
+        showJuryView();
+      }
+    });
+
+    confirmSongSelect.addEventListener('click', () => {
+      if (!selectedSong) return;
+      currentParticipant.favoriteSong = selectedSong;
+      saveToLocalStorage();
+      songSelectView.classList.add('hidden');
+      showTanzerView();
+    });
+
+    // ── Runde 2: Pflicht-Tanz ────────────────────────────────────────────────
+    roundMandatory.addEventListener('click', () => {
+      currentRound = 'r2';
+      roundSelect.classList.add('hidden');
+      if (currentRole === 'tanzer') {
+        if (!currentParticipant.mandatorySong) {
+          if (!playlists.mandatory.length) { alert('Bitte füge zuerst Pflicht-Tänze hinzu!'); roundSelect.classList.remove('hidden'); return; }
+          currentParticipant.mandatorySong = playlists.mandatory[Math.floor(Math.random() * playlists.mandatory.length)];
+          saveToLocalStorage();
+        }
+        showTanzerView();
+      } else {
+        if (!currentParticipant.mandatorySong) {
+          if (!playlists.mandatory.length) { alert('Bitte füge zuerst Pflicht-Tänze hinzu!'); return; }
+          currentParticipant.mandatorySong = playlists.mandatory[Math.floor(Math.random() * playlists.mandatory.length)];
+          saveToLocalStorage();
+        }
+        showJuryView();
+      }
+    });
+
+    // ── Anzeige ──────────────────────────────────────────────────────────────
+    function showTanzerView() {
+      const song = currentRound === 'r1' ? currentParticipant.favoriteSong : currentParticipant.mandatorySong;
+      tanzerName.textContent = currentParticipant.name;
+      tanzerSong.textContent = song;
+      setRoundBadge(tanzerRoundBadge, currentRound);
+      selfRating.value = '1';
+      tanzerView.classList.remove('hidden');
+    }
+    function showJuryView() {
+      const song = currentRound === 'r1' ? currentParticipant.favoriteSong : currentParticipant.mandatorySong;
+      juryName.textContent = currentParticipant.name;
+      jurySong.textContent = song;
+      setRoundBadge(juryRoundBadge, currentRound);
+      Object.keys(sliders).forEach(k => { sliders[k].value = '5'; document.getElementById(`${k}-value`).textContent = '5'; });
+      juryView.classList.remove('hidden');
+    }
+
+    // ── Tänzer bestätigen ────────────────────────────────────────────────────
+    tanzerSubmit.addEventListener('click', () => {
+      currentParticipant.selfRating[currentRound] = parseInt(selfRating.value);
+      saveToLocalStorage();
+      tanzerView.classList.add('hidden');
+      showConfirmation('Selbsteinschätzung');
+    });
+
+    // ── Schieberegler ────────────────────────────────────────────────────────
+    const sliders = { creativity: document.getElementById('creativity'), rhythm: document.getElementById('rhythm'),
+                      presence:   document.getElementById('presence'),   technique: document.getElementById('technique') };
+    Object.keys(sliders).forEach(k => {
+      sliders[k].addEventListener('input', () => { document.getElementById(`${k}-value`).textContent = sliders[k].value; });
+    });
+
+    // ── Jury bestätigen ──────────────────────────────────────────────────────
+    jurySubmit.addEventListener('click', () => {
+      const scores  = { creativity: parseInt(sliders.creativity.value), rhythm: parseInt(sliders.rhythm.value),
+                        presence:   parseInt(sliders.presence.value),   technique: parseInt(sliders.technique.value) };
+      const average = Object.values(scores).reduce((a,b) => a+b, 0) / 4;
+      currentParticipant.juryScores[currentRound] = { scores, average };
+      calcTotalScore(currentParticipant);
+      saveToLocalStorage();
+      juryView.classList.add('hidden');
+      showConfirmation('Bewertung');
+    });
+
+    function showConfirmation(roleText) {
+      const song = currentRound === 'r1' ? currentParticipant.favoriteSong : currentParticipant.mandatorySong;
+      confirmationRole.textContent = roleText;
+      confirmationName.textContent = currentParticipant.name;
+      confirmationSong.textContent = song;
+      confirmationView.classList.remove('hidden');
+    }
+
+    // ── Zurück ───────────────────────────────────────────────────────────────
+    backToStart.addEventListener('click', () => {
+      confirmationView.classList.add('hidden');
+      showParticipantSelect();
+      participantDropdown.value = '';
+      pairStatus.classList.add('hidden');
+      updateRanking();
+    });
+    juryWarningBack.addEventListener('click', () => {
+      juryWarning.classList.add('hidden');
+      roundSelect.classList.remove('hidden');
+    });
+
+    // ── Ranking ──────────────────────────────────────────────────────────────
+    function updateRanking() {
+      rankingBody.innerHTML = '';
+      [...participants].sort((a,b) => b.totalScore - a.totalScore).forEach((p, i) => {
+        calcTotalScore(p);
+        const medal  = i===0&&p.totalScore>0?'🥇 ':i===1&&p.totalScore>0?'🥈 ':i===2&&p.totalScore>0?'🥉 ':'';
+        const r1Avg  = p.juryScores.r1 ? p.juryScores.r1.average.toFixed(1) : '–';
+        const r2Avg  = p.juryScores.r2 ? p.juryScores.r2.average.toFixed(1) : '–';
+        const bonus  = p._bonus !== undefined ? (p._bonus > 0 ? `+${p._bonus}` : '0') : '–';
+        const row    = document.createElement('tr');
+        row.className = i%2===0 ? 'row-even' : 'row-odd';
+        row.innerHTML = `
+          <td>${medal}${p.name}</td>
+          <td class="center">${r1Avg}</td>
+          <td class="center">${r2Avg}</td>
+          <td class="green-center">${bonus}</td>
+          <td class="bold-center">${p.totalScore > 0 ? p.totalScore.toFixed(1) : '–'}</td>`;
+        rankingBody.appendChild(row);
+      });
+    }
+
+    // ── Init ─────────────────────────────────────────────────────────────────
+    updatePlaylistUI();
+    updateParticipantDropdown();
+    updateRanking();
+  </script>
+
+</body>
+</html>
