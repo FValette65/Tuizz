@@ -79,15 +79,18 @@ Fertig! So funktioniert der E-Mail-Workflow:
 Ablauf an einem Tanzabend:
 
 Vorbereitung
+
   └─ Zentralperson erstellt Vorlage-JSON → per E-Mail an alle
 
 Während des Abends (jede Person für sich)
+
   └─ tuizz_final.html öffnen
   └─ Vorlage importieren
   └─ Paare bewerten (Jury) oder einschätzen (Tänzer)
   └─ Am Ende: Exportieren → JSON per E-Mail zurück an Zentralperson
 
 Auswertung (Zentralperson)
+
   └─ Alle empfangenen JSONs auf einmal auswählen (🔀 Mehrere JSON-Dateien wählen)
   └─ Vorschau prüfen: Tabelle zeigt gemittelte Jury-Wertungen + Anzahl Dateien pro Paar
   └─ "Zusammenführen & Speichern" → fertiges Ranking
