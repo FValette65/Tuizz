@@ -58,4 +58,19 @@ Absolut! Du kannst Tuizz auch nutzen, um deine eigenen Fortschritte zu tracken. 
 **Hast du noch weitere Fragen?**
 Wende dich einfach an dein Tanzschul-Team oder erstelle einen Vorschlag in unserem GitHub-Repository!
 
+---
+Das ist die Kernfrage bei einer dezentralen Offline-App. Es gibt drei mögliche Ansätze:
+Problem: Jedes Gerät hat seinen eigenen localStorage → keine automatische Synchronisation.
+
+Option A – Manuelles Zusammenführen (einfachste Lösung)
+Jede Jury-Person exportiert am Abend ihre JSON-Datei. Eine Zentralperson importiert alle Dateien nacheinander in eine “Merge”-Funktion die ich in Tuizz einbauen kann. Die App berechnet dann automatisch den Durchschnitt aller Jury-Bewertungen pro Paar.
+Option B – Gemeinsame JSON-Vorlage als “Schnittstelle”
+Vor dem Abend: Zentralperson erstellt die Vorlage mit allen Paaren und Playlists → verteilt per E-Mail. Nach dem Abend: Alle exportieren → Zentralperson merged.
+Option C – Zentraler Server (aufwändig)
+Eine Person betreibt einen lokalen Server oder nutzt z.B. Google Sheets als Backend. Deutlich mehr Aufwand, funktioniert aber in Echtzeit.
+
+Für eure Situation wäre Option A + B kombiniert am sinnvollsten — alles bleibt offline und in einer einzigen HTML-Datei.​​​​​​​​​​​​​​​​
+
+
+
 Viel Spaß beim Tanzen! ✨
